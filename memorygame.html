@@ -25,6 +25,7 @@
             height: 500px;
             background-color: rgb(5, 133, 5);
         }
+
         .card {
             display: table-cell;
             width: 73px;
@@ -114,21 +115,21 @@
             });
         }
         var count = 0;
-        var first = 0;        
+        var first = 0;
         function clicka(t) {
             $('#card' + t).css('background-image', 'url(./images/' + cardList[t] + '.gif)');
             count++;
             console.log(count);
             console.info(t);
             console.error(first);
-            if(count==1){
+            if (count == 1) {
                 first = t;
             }
-            if (count == 2 && cardList[first] == cardList[t]) {
-                setTimeout(() => {                
-                    document.getElementById("card"+first).style.visibility = "hidden";
-                    document.getElementById("card"+t).style.visibility = "hidden";
-                    count=0
+            if (count == 2 && cardList[first] == cardList[t] && first != t) {
+                setTimeout(() => {
+                    document.getElementById("card" + first).style.visibility = "hidden";
+                    document.getElementById("card" + t).style.visibility = "hidden";
+                    count = 0
                 }, 500);
                 // $('#card' + first).addClass('off').removeClass('card');
                 // $('#card' + t).addClass('off').removeClass('card');
@@ -137,7 +138,7 @@
                 setTimeout(() => {
                     reset();
                 }, 500);
-                count=0;
+                count = 0;
             }
         }
         // $('#card' + first).attr('class', 'off');

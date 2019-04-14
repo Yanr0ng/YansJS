@@ -191,13 +191,14 @@
                     { level: 6, score: 1000, moles: 4, interval: 750 },
                 ];
             var $mole = $('.mole');
-            var tmr;
+            var tmr, tmr2, tmr3, tmr4;
             var getlevel, getmoles = 1;
             var $playground = $("#playground");
 
             // $playground.on("click", ".mole", function (e) {
             //     // 打地鼠事件
             // });
+
 
             $('.mole').click(function (e) {
                 e.preventDefault();
@@ -240,6 +241,7 @@
                 $($('.mole')[1]).removeClass('hit')
                 life = 100;
                 score = 0;
+                tm2 = true;
             }
 
             function stopGame() {
@@ -250,7 +252,7 @@
                     $(this).removeClass('hit');
                 });
             }
-            
+
             function getLevelProfile() {
                 // 取得目前等級參數
                 for (let i = 0; i < levelProfiles.length; i++) {
@@ -259,14 +261,14 @@
                         getmoles = levelProfiles[i].moles
                         $('#current-level')[0].innerHTML = getlevel;
                     }
-                }                
+                }
             }
 
             function updateScore() {
                 // 更新成績
                 $('#current-score')[0].innerHTML = score;
                 getLevelProfile();
-                
+
             }
 
             function updateLife() {
@@ -279,19 +281,19 @@
                     stopGame();
                 }
             }
-
+            var a = []
             function nextMole() {
                 // 🐭 下一隻地鼠
                 tmr = setInterval(() => {
                     for (let i = 0; i < getmoles; i++) {
-                        var a = Math.floor(Math.random() * $mole.length)
-                        $($('.mole')[a]).addClass('active')
+                        a[i] = Math.floor(Math.random() * $mole.length)
+                        $($('.mole')[a[i]]).addClass('active')
                         setTimeout(() => {
-                            if ($($('.mole')[a]).hasClass('active')) {
-                                $($('.mole')[a]).removeClass('active')
+                            if ($($('.mole')[a[i]]).hasClass('active')) {
+                                $($('.mole')[a[i]]).removeClass('active')
                                 updateLife();
                             }
-                        }, levelProfiles[0].interval+1500);
+                        }, levelProfiles[0].interval - 100);
                     }
                 }, levelProfiles[0].interval);
             }

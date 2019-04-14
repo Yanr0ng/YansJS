@@ -155,7 +155,7 @@
                     100
                 </div>
             </div>
-            
+
             <hr>
             <!-- <p>
                 <select id="sizing" class="form-control">
@@ -192,7 +192,7 @@
                 ];
             var $mole = $('.mole');
             var tmr;
-
+            var getlevel, getmoles = 1;
             var $playground = $("#playground");
 
             // $playground.on("click", ".mole", function (e) {
@@ -205,7 +205,6 @@
                     if ($(this).hasClass('active')) {
                         score += 10;
                         updateScore();
-                        clearTimeout(timer);
                     }
                     $(this).addClass('hit')
                     $(this).removeClass('active')
@@ -239,8 +238,8 @@
                 // 開始遊戲
                 $($('.mole')[0]).removeClass('active')
                 $($('.mole')[1]).removeClass('hit')
-                life=100;
-                score=0;
+                life = 100;
+                score = 0;
             }
 
             function stopGame() {
@@ -251,7 +250,7 @@
                     $(this).removeClass('hit');
                 });
             }
-            var getlevel, getmoles = 1;
+            
             function getLevelProfile() {
                 // 取得目前等級參數
                 for (let i = 0; i < levelProfiles.length; i++) {
@@ -260,13 +259,14 @@
                         getmoles = levelProfiles[i].moles
                         $('#current-level')[0].innerHTML = getlevel;
                     }
-                }
+                }                
             }
 
             function updateScore() {
                 // 更新成績
                 $('#current-score')[0].innerHTML = score;
                 getLevelProfile();
+                
             }
 
             function updateLife() {
@@ -275,7 +275,7 @@
                 $('#progress')[0].innerHTML = life;
                 $('#progress').width(life + '%');
                 if (life <= 0) {
-                    alert("YOU LOSE!")                    
+                    alert("YOU LOSE!")
                     stopGame();
                 }
             }
@@ -286,12 +286,13 @@
                     for (let i = 0; i < getmoles; i++) {
                         var a = Math.floor(Math.random() * $mole.length)
                         $($('.mole')[a]).addClass('active')
-                        timer =setTimeout(() => {
-                            $($('.mole')[a]).removeClass('active')
-                            updateLife();
-                        }, levelProfiles[0].interval + 1000);
+                        setTimeout(() => {
+                            if ($($('.mole')[a]).hasClass('active')) {
+                                $($('.mole')[a]).removeClass('active')
+                                updateLife();
+                            }
+                        }, levelProfiles[0].interval+1500);
                     }
-
                 }, levelProfiles[0].interval);
             }
 

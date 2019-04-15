@@ -100,7 +100,18 @@
     <div id="game">
         <div id="playground">
             <table>
-                <tr>
+                <tr></tr>
+
+                <tr></tr>
+
+                <tr></tr>
+
+                <tr></tr>
+
+                <tr></tr>
+
+                <tr></tr>
+                <!-- <tr>
                     <td>
                         <div class="mole active"></div>
                     </td>
@@ -132,7 +143,7 @@
                     <td>
                         <div class="mole"></div>
                     </td>
-                </tr>
+                </tr> -->
             </table>
         </div>
         <div id="score">
@@ -157,15 +168,15 @@
             </div>
 
             <hr>
-            <!-- <p>
+            <p>
                 <select id="sizing" class="form-control">
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
                     <option>6</option>
-                    <option>7</option>
+                    <!-- <option>7</option> -->
                 </select>
-            </p> -->
+            </p>
             <p>
                 <button id="start" class="btn btn-default">Start</button>
                 <button id="stop" class="btn btn-default">Stop</button>
@@ -190,18 +201,13 @@
                     { level: 5, score: 500, moles: 3, interval: 1000 },
                     { level: 6, score: 1000, moles: 4, interval: 750 },
                 ];
-            var $mole = $('.mole');
+            //var $mole = $('.mole');
             var tmr, tmr2, tmr3, tmr4;
             var getlevel, getmoles = 1;
             var $playground = $("#playground");
 
-            // $playground.on("click", ".mole", function (e) {
-            //     // 打地鼠事件
-            // });
-
-
-            $('.mole').click(function (e) {
-                e.preventDefault();
+            $playground.on("click", ".mole", function (e) {
+                // 打地鼠事件
                 $.each(e, function (index, valueOfElement) {
                     if ($(this).hasClass('active')) {
                         score += 10;
@@ -215,12 +221,19 @@
                 });
             });
 
+            var $mole= $('.mole')
+            
+
             $("#sizing").change(function () {
                 // 變更尺寸事件
+                psize = $("#sizing").val();
+               createPlayground($("#sizing").val());
+
             });
 
             $("#start").click(function () {
                 // 開始遊戲事件
+                var $mole=$('.mole')
                 startGame();
                 nextMole();
                 updateScore();
@@ -233,6 +246,24 @@
 
             function createPlayground(edge) {
                 // 建立空間
+                //psize = $("#sizing").val();
+                for (var i = 1; i <= edge*edge; i++) {
+                    $("tr").children("td").remove();
+                }
+
+                psize = edge;
+                if (psize == 3) {
+                    $("#playground table").css("margin-top", "-200px").css("margin-left", "-250px");
+                } else if (psize == 4) {
+                    $("#playground table").css("margin-top", "-200px").css("margin-left", "-300px");
+                } else if (psize == 5) {
+                    $("#playground table").css("margin-top", "-250px").css("margin-left", "-350px");
+                } else if (psize == 6) {
+                    $("#playground table").css("margin-top", "-300px").css("margin-left", "-400px");
+                }
+                for (var i = 0; i < psize * psize; i++) {
+                    $("<td><div class='mole'></div></td>").prependTo($("tr")[i % psize]);
+                }
             }
 
             function startGame() {
@@ -241,12 +272,13 @@
                 $($('.mole')[1]).removeClass('hit')
                 life = 100;
                 score = 0;
-                tm2 = true;
             }
 
             function stopGame() {
                 // 終止遊戲
+                
                 clearInterval(tmr);
+                $mole=$('.mole')
                 $mole.each(function (indexInArray, valueOfElement) {
                     $(this).removeClass('active');
                     $(this).removeClass('hit');
@@ -284,9 +316,10 @@
             var a = []
             function nextMole() {
                 // 🐭 下一隻地鼠
+                var $mole = $('.mole');
                 tmr = setInterval(() => {
                     for (let i = 0; i < getmoles; i++) {
-                        a[i] = Math.floor(Math.random() * $mole.length)
+                        a[i] = Math.floor(Math.random() * $mole.length)                        
                         $($('.mole')[a[i]]).addClass('active')
                         setTimeout(() => {
                             if ($($('.mole')[a[i]]).hasClass('active')) {
@@ -296,12 +329,26 @@
                         }, levelProfiles[0].interval - 100);
                     }
                 }, levelProfiles[0].interval);
-            }
-
-
-
+            }        
             createPlayground(3);
+
+        // $mole.click(function (e) {
+        //         e.preventDefault();
+        //         $.each(e, function (index, valueOfElement) {
+        //             if ($(this).hasClass('active')) {
+        //                 score += 10;
+        //                 updateScore();
+        //             }
+        //             $(this).addClass('hit')
+        //             $(this).removeClass('active')
+        //             setInterval(() => {
+        //                 $(this).removeClass('hit')
+        //             }, 500);
+        //         });
+        //     });
+
         });
+
     </script>
 </body>
 

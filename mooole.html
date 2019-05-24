@@ -185,8 +185,8 @@
         <div id="control">
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         $(function () {
@@ -221,19 +221,37 @@
                 });
             });
 
-            var $mole= $('.mole')
             
+            $(document).ready(function () {
+                $('.popmodal').each(collection, function (indexInArray, valueOfElement) {
+                    $(this).click(function (e) {
+                        e.preventDefault();
+                        var url = $(this).data('url');
+                        var url2 = url + "/" + id;
+                        $.get("url", function (data) {
+                            $("#myModal").html(data);
+                            $("#myModal").modal(show);
+                        });
+                    });
+                });
+            });
+
+
+
+
+            var $mole = $('.mole')
+
 
             $("#sizing").change(function () {
                 // 變更尺寸事件
                 psize = $("#sizing").val();
-               createPlayground($("#sizing").val());
+                createPlayground($("#sizing").val());
 
             });
 
             $("#start").click(function () {
                 // 開始遊戲事件
-                var $mole=$('.mole')
+                var $mole = $('.mole')
                 startGame();
                 nextMole();
                 updateScore();
@@ -247,7 +265,7 @@
             function createPlayground(edge) {
                 // 建立空間
                 //psize = $("#sizing").val();
-                for (var i = 1; i <= edge*edge; i++) {
+                for (var i = 1; i <= edge * edge; i++) {
                     $("tr").children("td").remove();
                 }
 
@@ -276,9 +294,9 @@
 
             function stopGame() {
                 // 終止遊戲
-                
+
                 clearInterval(tmr);
-                $mole=$('.mole')
+                $mole = $('.mole')
                 $mole.each(function (indexInArray, valueOfElement) {
                     $(this).removeClass('active');
                     $(this).removeClass('hit');
@@ -319,7 +337,7 @@
                 var $mole = $('.mole');
                 tmr = setInterval(() => {
                     for (let i = 0; i < getmoles; i++) {
-                        a[i] = Math.floor(Math.random() * $mole.length)                        
+                        a[i] = Math.floor(Math.random() * $mole.length)
                         $($('.mole')[a[i]]).addClass('active')
                         setTimeout(() => {
                             if ($($('.mole')[a[i]]).hasClass('active')) {
@@ -329,23 +347,23 @@
                         }, levelProfiles[0].interval - 100);
                     }
                 }, levelProfiles[0].interval);
-            }        
+            }
             createPlayground(3);
 
-        // $mole.click(function (e) {
-        //         e.preventDefault();
-        //         $.each(e, function (index, valueOfElement) {
-        //             if ($(this).hasClass('active')) {
-        //                 score += 10;
-        //                 updateScore();
-        //             }
-        //             $(this).addClass('hit')
-        //             $(this).removeClass('active')
-        //             setInterval(() => {
-        //                 $(this).removeClass('hit')
-        //             }, 500);
-        //         });
-        //     });
+            // $mole.click(function (e) {
+            //         e.preventDefault();
+            //         $.each(e, function (index, valueOfElement) {
+            //             if ($(this).hasClass('active')) {
+            //                 score += 10;
+            //                 updateScore();
+            //             }
+            //             $(this).addClass('hit')
+            //             $(this).removeClass('active')
+            //             setInterval(() => {
+            //                 $(this).removeClass('hit')
+            //             }, 500);
+            //         });
+            //     });
 
         });
 
